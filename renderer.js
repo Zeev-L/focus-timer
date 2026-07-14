@@ -23,8 +23,8 @@
 
   // ---- strings ----
   const STR = {
-    he: { title: 'עריכת טיימר', minutes: 'דקות · אפשר להקליד', size: 'גודל הדיסק', save: 'שמור', cancel: 'ביטול', quit: 'יציאה מהאפליקציה', start: 'לחץ להתחלה', running: 'רץ', paused: 'מושהה', over: 'לחץ לאיפוס' },
-    en: { title: 'Edit timer', minutes: 'minutes · type any value', size: 'Disc size', save: 'Save', cancel: 'Cancel', quit: 'Quit app', start: 'Tap to start', running: 'Running', paused: 'Paused', over: 'Tap to reset' }
+    he: { title: 'עריכת טיימר', minutes: 'דקות · אפשר להקליד', size: 'גודל הדיסק', save: 'שמור', cancel: 'ביטול', hide: 'הסתר טיימר', quit: 'יציאה', hint: 'להחזרה: אייקון הטבעת ב-menu bar, או ⌃⌥T', start: 'לחץ להתחלה', running: 'רץ', paused: 'מושהה', over: 'נגמר · לחץ לאיפוס' },
+    en: { title: 'Edit timer', minutes: 'minutes · type any value', size: 'Disc size', save: 'Save', cancel: 'Cancel', hide: 'Hide timer', quit: 'Quit', hint: 'To bring it back: the ring icon in the menu bar, or ⌃⌥T', start: 'Tap to start', running: 'Running', paused: 'Paused', over: 'Time’s up · tap to reset' }
   };
 
   // ---- state ----
@@ -187,6 +187,12 @@
     reset();
     start();
   });
+  document.getElementById('hide').addEventListener('click', function () {
+    closeEdit();
+    if (wasRunning) setSub('paused');
+    renderRun();
+    api.hideWindow();
+  });
   document.getElementById('quit').addEventListener('click', function () { api.quit(); });
 
   numEl.addEventListener('input', function () {
@@ -216,7 +222,9 @@
     document.getElementById('size-label').textContent = s.size;
     document.getElementById('cancel').textContent = s.cancel;
     document.getElementById('save').textContent = s.save;
+    document.getElementById('hide').textContent = s.hide;
     document.getElementById('quit').textContent = s.quit;
+    document.getElementById('hidehint').textContent = s.hint;
     panel.setAttribute('dir', lang === 'he' ? 'rtl' : 'ltr');
     subEl.textContent = over ? s.over : s[stateKey];
     document.documentElement.lang = lang;

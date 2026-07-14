@@ -1,6 +1,9 @@
-const { app, BrowserWindow, ipcMain, screen } = require('electron');
+const { app, BrowserWindow, ipcMain, screen, Tray, Menu, globalShortcut, nativeImage } = require('electron');
 const path = require('path');
 const fs = require('fs');
+
+const TOGGLE_SHORTCUT = 'CommandOrControl+Alt+T';
+let tray = null;
 
 const CONFIG_PATH = path.join(app.getPath('userData'), 'config.json');
 const PAD = 28;            // transparent margin around the disc (for glow / shadow)
@@ -67,15 +70,63 @@ function createWindow() {
   win.loadFile('index.html');
 }
 
-app.whenReady().then(() => {
-  createWindow();
-  if (process.platform === 'darwin' && app.dock) app.dock.hide();
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
-});
+function toggleVisibility() {
+  if (!win) return;
+  if (win.isVisible()) {
+    win.hide();
+  } else {
+    win.showInactive();
+    win.moveTop();
+  }
+  updateTrayMenu();
+}
 
-app.on('window-all-closed', () => app.quit());
+function updateTrayMenu() {
+  if (!tray) return;
+  const he = (cfg.lang || 'he') === 'he';
+  const visible = win && win.isVisible();
+  const showHide = he
+    ? (visible ? 'הסתר טיימר' : 'הצג טיימר')
+    : (visible ? 'Hide timer' : 'Show timer');
+  const menu = Menu.buildFromTemplate([
+    { label: showHide + '   (⌃⌥T)', click: toggleVisibility },
+    { type: 'separator' },
+    { label: he ? 'יציאה' : 'Quit', click: () => app.quit() }
+  ]);
+  tray.setContextMenu(menu);
+  tray.setToolTip(he ? 'טיימר פוקוס' : 'Focus Timer');
+}
+
+function createTray() {
+  let img = nativeImage.createFromPath(path.join(__dirname, 'assets', 'trayTemplate.png'));
+  if (!img.isEmpty()) img.setTemplateImage(true);
+  tray = new Tray(img);
+  tray.on('click', toggleVisibility);   // left-click toggles show/hide
+  updateTrayMenu();
+}
+
+// Single instance: relaunching the app just reveals the existing disc.
+if (!app.requestSingleInstanceLock()) {
+  app.quit();
+} else {
+  app.on('second-instance', () => {
+    if (win) { win.showInactive(); win.moveTop(); updateTrayMenu(); }
+  });
+
+  app.whenReady().then(() => {
+    createWindow();
+    createTray();
+    if (process.platform === 'darwin' && app.dock) app.dock.hide();
+    globalShortcut.register(TOGGLE_SHORTCUT, toggleVisibility);
+    app.on('activate', () => {
+      if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    });
+  });
+}
+
+// keep running in the menu bar even when the disc is hidden
+app.on('window-all-closed', () => {});
+app.on('will-quit', () => globalShortcut.unregisterAll());
 
 ipcMain.handle('get-config', () => cfg);
 
@@ -105,6 +156,10 @@ ipcMain.on('bring-to-front', () => {
 
 ipcMain.on('normal-top', () => {
   if (win) win.setAlwaysOnTop(true, 'floating');
+});
+
+ipcMain.on('hide-window', () => {
+  if (win) { win.hide(); updateTrayMenu(); }
 });
 
 ipcMain.on('quit-app', () => app.quit());

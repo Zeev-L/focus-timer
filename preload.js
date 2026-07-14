@@ -8,5 +8,6 @@ contextBridge.exposeInMainWorld('timerAPI', {
   setWindowSize: (w, h) => ipcRenderer.send('set-window-size', w, h),
   bringToFront: () => ipcRenderer.send('bring-to-front'),
   normalTop: () => ipcRenderer.send('normal-top'),
+  hideWindow: () => ipcRenderer.send('hide-window'),
   quit: () => ipcRenderer.send('quit-app')
 });

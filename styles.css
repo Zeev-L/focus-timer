@@ -276,14 +276,28 @@ html, body {
   cursor: pointer;
 }
 
-.quit-link {
-  display: block;
-  width: 100%;
-  margin-top: 14px;
+.panel-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+.foot-link {
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.35);
-  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
   cursor: pointer;
+  padding: 4px 6px;
 }
-.quit-link:hover { color: rgba(255, 122, 107, 0.8); }
+.foot-link:hover { color: #fff; }
+.foot-link.danger:hover { color: rgba(255, 122, 107, 0.9); }
+.foot-sep { color: rgba(255, 255, 255, 0.25); font-size: 12px; }
+.foot-hint {
+  text-align: center;
+  margin-top: 6px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.3px;
+}

@@ -14,6 +14,7 @@ Built because it's easy to get swept up in work and lose track of time.
 - **Overtime counter** — when time's up it counts *up* in a faded coral (`+M:SS`) until you dismiss it.
 - **Jumps to the front + chime** when the timer ends, even if it was hidden behind other windows.
 - **Edit on hover** — hover the disc, click the ✎, and set the duration (type any number of minutes), the disc size, and the language.
+- **Hide / show** — tuck it away and bring it back instantly from the menu-bar icon or a global shortcut.
 - **Hebrew / English** — switch in settings.
 
 ## Controls
@@ -24,9 +25,20 @@ Built because it's easy to get swept up in work and lose track of time.
 | Move | Drag the disc anywhere on screen |
 | Edit (time / size / language) | Hover the disc → click ✎ |
 | Reset after it ends | Click the disc |
-| Quit | ✎ → "Quit app" |
+| Hide the disc | ✎ → "Hide timer", the menu-bar ring icon, or `⌃⌥T` |
+| Show it again | Click the menu-bar ring icon, or press `⌃⌥T` |
+| Quit | Menu-bar icon → "Quit", or ✎ → "Quit" |
 
 Settings (duration, size, language, position) are saved automatically and restored next launch.
+
+### Hiding & bringing it back
+
+The app lives in the **menu bar** (a small ring icon), so it keeps running even when the disc is hidden:
+
+- **Hide:** click the disc's ✎ → "Hide timer", or click the menu-bar icon, or press **⌃⌥T** (Control-Option-T).
+- **Show:** click the menu-bar icon again, or press **⌃⌥T**.
+
+Hiding never loses your timer — it keeps running in the background and reappears where you left it.
 
 ## Run it
 
