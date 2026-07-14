@@ -1,0 +1,34 @@
+{
+  "name": "focus-timer",
+  "version": "1.0.0",
+  "description": "A small floating focus timer for macOS — a glassy disc that counts down, warms in color, and counts overtime when you drift past your planned block.",
+  "main": "main.js",
+  "author": "Zeev-L",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --mac"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.zeevl.focustimer",
+    "productName": "Focus Timer",
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "renderer.js",
+      "styles.css",
+      "assets/**"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        "dmg"
+      ]
+    }
+  }
+}

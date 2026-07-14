@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Focus Timer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- DISC VIEW -->
+  <div id="disc-view">
+    <div id="scale">
+      <div id="disc" title="לחיצה = השהה/המשך">
+        <svg width="120" height="120" viewBox="0 0 120 120" class="ring">
+          <circle cx="60" cy="60" r="50" class="track"></circle>
+          <circle id="arc" cx="60" cy="60" r="50" class="prog"></circle>
+        </svg>
+        <div id="tip"></div>
+        <div class="center">
+          <div id="time">25:00</div>
+          <div id="sub">לחץ להתחלה</div>
+        </div>
+        <button id="edit" aria-label="עריכה">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 20h4L18.5 9.5a2.121 2.121 0 0 0-3-3L5 17v3z"></path>
+            <path d="M13.5 6.5l3 3"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS VIEW -->
+  <div id="panel-view" class="hidden">
+    <div id="panel">
+      <div class="panel-head">
+        <span id="p-title">עריכת טיימר</span>
+        <span class="lang-toggle">
+          <button class="lang on" data-lang="he">עב</button>
+          <button class="lang" data-lang="en">EN</button>
+        </span>
+      </div>
+
+      <div class="stepper">
+        <button id="minus" class="step">−</button>
+        <input id="num" type="text" inputmode="numeric" value="25" aria-label="דקות" />
+        <button id="plus" class="step">+</button>
+      </div>
+      <div id="minword" class="minword">דקות · אפשר להקליד</div>
+
+      <div class="quick-row">
+        <button class="quick" data-min="5">5</button>
+        <button class="quick" data-min="15">15</button>
+        <button class="quick on" data-min="25">25</button>
+        <button class="quick" data-min="45">45</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="size-head">
+        <span id="size-label">גודל הדיסק</span>
+        <span id="size-val">120px</span>
+      </div>
+      <input id="size" class="range" type="range" min="80" max="220" value="120" step="4" />
+
+      <div class="actions">
+        <button id="cancel" class="btn-cancel">ביטול</button>
+        <button id="save" class="btn-save">שמור</button>
+      </div>
+
+      <button id="quit" class="quit-link">יציאה מהאפליקציה</button>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
