@@ -28,9 +28,9 @@ Built because it's easy to get swept up in work and lose track of time.
 
 Settings (duration, size, language, position) are saved automatically and restored next launch.
 
-## Run it (development)
+## Run it
 
-Requires [Node.js](https://nodejs.org) (v18+).
+Requires [Node.js](https://nodejs.org) (v18+). Check with `node -v`; if it's missing, install it (`brew install node`).
 
 ```bash
 git clone https://github.com/Zeev-L/focus-timer.git
@@ -39,13 +39,40 @@ npm install
 npm start
 ```
 
-## Build a standalone .app (optional)
+`npm start` opens the timer — a small glassy disc that floats near the center of the screen (drag it wherever you like). **The disc stays open only while that terminal/`npm start` is running.** Closing the terminal quits the app. For an always-available version you can double-click, build the standalone app below.
+
+> The window has no frame or Dock icon on purpose — if you don't see it, it may be behind another window or off to the side. Move windows aside, or run `npm start` again.
+
+## Standalone app (double-click, no terminal)
+
+Build a real macOS `.app` you can keep in Applications:
 
 ```bash
 npm run dist
 ```
 
-The packaged app + DMG land in `dist/`.
+The `.app` and a `.dmg` land in `dist/`. Because it isn't code-signed, the first launch needs **right-click → Open** (then "Open" in the dialog) — after that it opens normally. To quit: hover the disc → ✎ → "Quit app".
+
+## Troubleshooting
+
+**`Error: Electron failed to install correctly` on `npm start`** — this happens when npm's script sandbox blocks Electron's post-install download, so the binary never lands. Fix it once:
+
+```bash
+# 1) run Electron's own installer to fetch the binary into its cache
+node node_modules/electron/install.js
+
+# 2) if node_modules/electron/dist/ still has no Electron.app, unzip the cached build into it:
+ZIP=$(ls "$HOME/Library/Caches/electron/"*/electron-v*-darwin-*.zip | tail -1)
+rm -rf node_modules/electron/dist && mkdir -p node_modules/electron/dist
+unzip -q "$ZIP" -d node_modules/electron/dist
+
+# 3) point Electron's loader at the binary
+printf 'Electron.app/Contents/MacOS/Electron' > node_modules/electron/path.txt
+
+npm start
+```
+
+On most machines `npm install && npm start` just works — this is only needed where the post-install step is sandboxed.
 
 ---
 

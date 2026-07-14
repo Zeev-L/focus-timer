@@ -53,8 +53,8 @@
   function renderRun() {
     const f = total > 0 ? Math.max(0, remaining / total) : 0;
     const col = color(f);
-    arc.setAttribute('stroke-dashoffset', (C * (1 - f)).toFixed(2));
-    arc.setAttribute('stroke', col);
+    arc.style.strokeDashoffset = (C * (1 - f)).toFixed(2);
+    arc.style.stroke = col;
     timeEl.textContent = fmt(Math.ceil(remaining));
     const ang = (-90 + 360 * f) * Math.PI / 180;
     const x = CX + R * Math.cos(ang), y = CY + R * Math.sin(ang);
@@ -91,8 +91,8 @@
   function startOvertime() {
     over = true; running = false; overSec = 0; flashTicks = 0;
     tip.style.display = 'none';
-    arc.setAttribute('stroke-dashoffset', '0');
-    arc.setAttribute('stroke', 'rgba(255,122,107,0.22)');
+    arc.style.strokeDashoffset = '0';
+    arc.style.stroke = 'rgba(255,122,107,0.22)';
     disc.classList.remove('pulsing');
     disc.classList.add('finished', 'flashing');
     setSub('over');
