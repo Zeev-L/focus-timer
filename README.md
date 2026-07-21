@@ -65,6 +65,8 @@ npm run dist
 
 The `.app` and a `.dmg` land in `dist/`. Because it isn't code-signed, the first launch needs **right-click → Open** (then "Open" in the dialog) — after that it opens normally. To quit: hover the disc → ✎ → "Quit app".
 
+The app icon lives in `build/icon.icns` (source: `tools/icon.html`). To regenerate it after changing the design, run `bash tools/gen-icon.sh`.
+
 ## Troubleshooting
 
 **`Error: Electron failed to install correctly` on `npm start`** — this happens when npm's script sandbox blocks Electron's post-install download, so the binary never lands. Fix it once:
